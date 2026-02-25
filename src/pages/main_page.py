@@ -19,8 +19,14 @@ def main_page():
     Input('url', 'pathname')
 )
 def update_url(auth_data, url):
-    if not auth_data.get('authenticated', False) == True and url not in ['/login', '/create-account']:
-        url = '/login'  # Redirect to login page if not authenticated
+    print(auth_data, url)
+    if auth_data is None:
+        auth_data = {}
+
+    if auth_data.get('authenticated', False) == False and url not in ['/login', '/create-account']:
+        url = '/login'  # Redirect to login page if not authenticated*
+    elif auth_data.get('authenticated', False) == True and url in ['/login', '/create-account']:
+        url = '/'  # Redirect to homepage if already authenticated
     # If the user navigates away from the root URL ('/'), redirect back to it
     if url == '/':
         return html.P("This is the homepage")

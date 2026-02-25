@@ -18,7 +18,6 @@ def create_account_page():
 
             html.Form([
                 dcc.Input(id='username', type='text', placeholder='Username', style={'width': '100%'}),
-                dcc.Input(id='email', type='email', placeholder='Email', style={'width': '100%', 'marginTop': 10}),
                 dcc.Input(id='password', type='password', placeholder='Password', style={'width': '100%', 'marginTop': 10}),
 
                 html.Button('Submit', id='create-button', n_clicks=0, style={'background-color': '#00698f', 'color': '#ffffff', 'border': 'none', 'padding': '10px 20px', 'marginBottom': 20})
@@ -33,19 +32,18 @@ def create_account_page():
 
 @callback(
     Output('authentication', 'data', allow_duplicate=True),
-    Output('url', 'pathname'),
+    Output('url', 'pathname', allow_duplicate=True),
     Input('create-button', 'n_clicks'),
     State('username', 'value'),
-    State('email', 'value'),
     State('password', 'value'),
     prevent_initial_call=True
 )
-def create(n_clicks, username, email, password):
-    print("Creating account...")
+def create(n_clicks, username, password):
     # Check if all fields are filled out and click count is greater than 0
-    if n_clicks > 0 and username != '' and email != '' and password != '':
+    if n_clicks > 0 and username != '' and password != '':
         print("Account created successfully")
         store_credentials(username, password)
-        return {'created': True}, '/login'
+        print("Returning authentication data and redirecting to homepage...")
+        return {'authenticated': True, "user": username}, '/'
     else:
         return {}, '/create-account'

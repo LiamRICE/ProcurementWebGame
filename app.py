@@ -8,8 +8,8 @@ app = dash.Dash(__name__)
 # Define a layout for the app
 app.layout = html.Div([
     main_page(),
-    dcc.Location(id='url', refresh=False),
-    dcc.Store(id='authentication', storage_type='memory', data={})
+    dcc.Location(id='url'),
+    dcc.Store(id='authentication', storage_type='session')
 ])
 
 # Run the app
