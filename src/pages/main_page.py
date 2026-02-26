@@ -3,7 +3,7 @@ from dash import html, callback
 from dash.dependencies import Input, Output, State
 from src.pages.authentication.login import login_page
 from src.pages.authentication.create_account import create_account_page
-from src.modules.navbar import navbar
+from src.modules.visual_modules.navbar import navbar
 
 def main_page():
 
