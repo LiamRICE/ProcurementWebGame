@@ -3,99 +3,96 @@ from dash import html, dcc, callback, Output, Input, State, no_update, ctx
 
 def navbar(
     home_href="/",
-    dropdowns=None,
+    mode="login",
     disconnect_id="disconnect-button",
     navbar_id="navbar",
 ):
-    """
-    Creates a reusable Dash navbar.
+    dropdowns = dropdowns_by_mode(mode)
 
-    Parameters
-    ----------
-    home_href : str
-        URL for the home button.
-    dropdowns : list of dict
-        Example:
-        [
-            {
-                "label": "File",
-                "items": [
-                    {"label": "Open", "value": "open"},
-                    {"label": "Save", "value": "save"},
-                ],
-                "id": "file-menu"
-            }
-        ]
-    disconnect_id : str
-        Component ID for disconnect button.
-    navbar_id : str
-        Navbar container ID.
-
-    Returns
-    -------
-    html.Div
-    """
-
-    dropdowns = dropdowns or []
-
-    dropdown_components = []
+    nav_dropdowns = []
     for menu in dropdowns:
-        dropdown_components.append(
+        nav_dropdowns.append(
             html.Div(
                 [
-                    html.Label(menu["label"], className="navbar-label"),
-                    dcc.Dropdown(
-                        id=menu["id"],
-                        options=[
-                            {"label": item["label"], "value": item["value"]}
+                    html.Button(
+                        menu["label"],
+                        className="nav-dropbtn",
+                    ),
+                    html.Div(
+                        [
+                            dcc.Link(
+                                item["label"],
+                                href=item.get("href", "#"),
+                                className="nav-dropdown-link",
+                            )
                             for item in menu["items"]
                         ],
-                        placeholder=menu["label"],
-                        clearable=False,
-                        className="navbar-dropdown",
+                        className="nav-dropdown-content",
                     ),
                 ],
-                className="navbar-item",
+                className="nav-dropdown",
             )
         )
 
     navbar = html.Div(
         [
-            # Left side
             html.Div(
                 [
-                    dcc.Link(
-                        html.Button("🏠 Home", className="navbar-button"),
-                        href=home_href,
-                    ),
-                    *dropdown_components,
+                    dcc.Link("🏠 Home", href=home_href, className="nav-home"),
+                    *nav_dropdowns,
                 ],
-                className="navbar-left",
+                className="nav-left",
             ),
-
-            # Right side
-            html.Div(
-                html.Button(
-                    "Disconnect",
-                    id=disconnect_id,
-                    n_clicks=0,
-                    className="disconnect-button",
-                ),
-                className="navbar-right",
+            html.Button(
+                "Disconnect",
+                id=disconnect_id,
+                n_clicks=0,
+                className="nav-disconnect",
             ),
         ],
         id=navbar_id,
-        className="navbar",
-        style={
-            "display": "flex",
-            "justifyContent": "space-between",
-            "alignItems": "center",
-            "padding": "10px",
-            "backgroundColor": "#2c3e50",
-        },
+        className="nav-bar",
     )
 
     return navbar
+
+
+
+def dropdowns_by_mode(mode="login"):
+    if mode == "login":
+        dropdowns = []
+    else:
+        dropdowns=[
+            {
+                "label": "Nation",
+                "id": "nation-menu",
+                "items": [
+                    {"label": "Regions", "href": "/regions"},
+                    {"label": "National Budget", "href": "/budget"},
+                    {"label": "National Policies", "href": "/policies"},
+                    {"label": "International Relations", "href": "/international-relations"},
+                ],
+            },
+            {
+                "label": "Objectives",
+                "id": "objectives-menu",
+                "items": [
+                    {"label": "Capabilities", "href": "/capabilities"},
+                    {"label": "Rival Nations", "href": "/rival-nations"},
+                ],
+            },
+            {
+                "label": "Finances",
+                "id": "objectives-menu",
+                "items": [
+                    {"label": "Military Budget", "href": "/military-budget"},
+                    {"label": "Military Expenses", "href": "/military-expenses"},
+                ],
+            },
+        ]
+    
+    return dropdowns
+
 
 
 @callback(

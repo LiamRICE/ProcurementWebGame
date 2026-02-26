@@ -35,13 +35,13 @@ def update_url(auth_data, url):
 
     # If the user navigates away from the root URL ('/'), redirect back to it
     if url == '/':
-        return [navbar(), html.H1("Army Procurement Game")]
+        return [navbar(mode="main"), html.H1("Army Procurement Game")]
     elif url == '/login':
-        return [navbar(), login_page()]
+        return [navbar(mode="login"), login_page()]
     elif url == '/create-account':
-        return [navbar(), create_account_page()]
+        return [navbar(mode="login"), create_account_page()]
     else:
-        return [navbar(), html.P("Error 404: Page not found")]
+        return [navbar(mode="main"), html.P("Error 404: Page not found")]
 
 
 
