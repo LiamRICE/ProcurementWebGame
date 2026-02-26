@@ -1,0 +1,58 @@
+import json
+from typing import Dict
+import os
+import hashlib
+import secrets
+
+# Hash passwords instead of encrypting them
+def store_credentials(username: str, password: str) -> None:
+    """
+    Store a newly created user's credentials in a secure fashion.
+
+    Args:
+        username (str): The username of the newly created user.
+        password (str): The password of the newly created user.
+
+    Returns:
+        None
+    """
+
+    # Create the directory to store credentials if it doesn't exist
+    cred_dir = 'src/data/credentials/'
+    os.makedirs(cred_dir, exist_ok=True)
+
+    # Generate a secure key for hashing
+    hashed_key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
+
+    # Store the credentials in JSON format with hashing
+    cred_data: Dict[str, str] = {
+        'username': username,
+        'password': hashlib.sha256(password.encode()).hexdigest(),
+        'key': hashed_key
+    }
+
+    with open(os.path.join(cred_dir, f"{username}.json"), "w") as file:
+        json.dump(cred_data, file)
+
+
+def check_credentials(username: str, provided_password: str) -> bool:
+    """
+    Check a user's credentials against those stored in the credentials file.
+
+    Args:
+        username (str): The username to be checked.
+        provided_password (str): The password provided by the user.
+
+    Returns:
+        bool: True if the credentials match, False otherwise.
+    """
+
+    # Load the hashed credentials from the JSON file
+    cred_dir = 'src/data/credentials/'
+    with open(os.path.join(cred_dir, f"{username}.json"), "r") as file:
+        stored_data: Dict[str, str] = json.load(file)
+        print(stored_data)
+
+    # Compare the provided password's hash to the stored hash
+    return hashlib.sha256(provided_password.encode()).hexdigest() == stored_data['password']
+
