@@ -3,6 +3,7 @@ from dash import html, callback
 from dash.dependencies import Input, Output, State
 from src.pages.authentication.login import login_page
 from src.pages.authentication.create_account import create_account_page
+from src.modules.navbar import navbar
 
 def main_page():
 
@@ -12,6 +13,7 @@ def main_page():
     ])
 
 
+
 # Define the callback to manage URL navigation
 @callback(
     Output('content-div', 'children'),
@@ -19,7 +21,8 @@ def main_page():
     Input('url', 'pathname')
 )
 def update_url(auth_data, url):
-    print(auth_data, url)
+    print("URL modified, navigating to", url)
+    print("User :", auth_data)
     if auth_data is None:
         auth_data = {}
 
@@ -27,15 +30,18 @@ def update_url(auth_data, url):
         url = '/login'  # Redirect to login page if not authenticated*
     elif auth_data.get('authenticated', False) == True and url in ['/login', '/create-account']:
         url = '/'  # Redirect to homepage if already authenticated
+
+    print("Navigating to", url)
+
     # If the user navigates away from the root URL ('/'), redirect back to it
     if url == '/':
-        return html.P("This is the homepage")
+        return [navbar(), html.H1("Army Procurement Game")]
     elif url == '/login':
-        return login_page()
+        return [navbar(), login_page()]
     elif url == '/create-account':
-        return create_account_page()
+        return [navbar(), create_account_page()]
     else:
-        return html.P("Error 404: Page not found")
+        return [navbar(), html.P("Error 404: Page not found")]
 
 
 

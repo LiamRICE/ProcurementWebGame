@@ -1,5 +1,5 @@
 # Create a function that returns a Dash page for creating an account
-from dash import html, dcc, callback
+from dash import html, dcc, callback, ctx, no_update
 from dash.dependencies import Input, Output, State
 from src.utils.user_utils import store_credentials
 
@@ -20,25 +20,26 @@ def create_account_page():
                 dcc.Input(id='username', type='text', placeholder='Username', style={'width': '100%'}),
                 dcc.Input(id='password', type='password', placeholder='Password', style={'width': '100%', 'marginTop': 10}),
 
-                html.Button('Submit', id='create-button', n_clicks=0, style={'background-color': '#00698f', 'color': '#ffffff', 'border': 'none', 'padding': '10px 20px', 'marginBottom': 20})
+                html.Button('Submit', id='create-account-button', n_clicks=0, style={'background-color': '#00698f', 'color': '#ffffff', 'border': 'none', 'padding': '10px 20px', 'marginBottom': 20})
             ]),
 
             # Footer with output message
-            html.Div(id='output', style={'marginTop': 30, 'fontSize': 16}),
+            html.Button('Have an account? Login', id="go-login-button", n_clicks=0, style={'marginTop': 30, 'fontSize': 16}),
         ], style={'width': '50%', 'margin': 'auto'}),
     ])
-        
+    
     return layout
 
 @callback(
     Output('authentication', 'data', allow_duplicate=True),
     Output('url', 'pathname', allow_duplicate=True),
-    Input('create-button', 'n_clicks'),
+    Input('create-account-button', 'n_clicks'),
     State('username', 'value'),
     State('password', 'value'),
     prevent_initial_call=True
 )
 def create(n_clicks, username, password):
+    print("Creating account : ", ctx.triggered_id, "with", n_clicks, "clicks.")
     # Check if all fields are filled out and click count is greater than 0
     if n_clicks > 0 and username != '' and password != '':
         print("Account created successfully")
@@ -47,3 +48,16 @@ def create(n_clicks, username, password):
         return {'authenticated': True, "user": username}, '/'
     else:
         return {}, '/create-account'
+
+
+
+@callback(
+    Output('url', 'pathname', allow_duplicate=True),
+    Input('go-login-button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def go_to_login(n_clicks):
+    print("Go to login page")
+    if ctx.triggered_id == 'go-login-button' and n_clicks > 0:
+        return '/login'
+    return no_update

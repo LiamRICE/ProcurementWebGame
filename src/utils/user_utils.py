@@ -53,6 +53,8 @@ def check_credentials(username: str, provided_password: str) -> bool:
         stored_data: Dict[str, str] = json.load(file)
         print(stored_data)
 
+    print(hashlib.sha256(provided_password.encode()).hexdigest(), "==", stored_data['password'])
+
     # Compare the provided password's hash to the stored hash
     return hashlib.sha256(provided_password.encode()).hexdigest() == stored_data['password']
 

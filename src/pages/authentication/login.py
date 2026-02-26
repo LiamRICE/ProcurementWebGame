@@ -1,4 +1,4 @@
-from dash import Dash, callback, html, dcc, no_update
+from dash import Dash, callback, html, dcc, no_update, ctx
 from dash.dependencies import Input, Output, State
 from src.utils.user_utils import check_credentials
 
@@ -21,7 +21,6 @@ def login_page():
             ]),
             html.Div([
                 html.A('Don\'t have an account?', href='/create-account', style={'marginRight': 10}),
-                html.Button('Create Account', id='create-account-button', n_clicks=0, style={'background-color': '#00698f', 'color': '#ffffff', 'border': 'none', 'padding': '10px 20px'})
             ], style={'textAlign': 'center', 'marginBottom': 40}),
 
             # Footer with output message
@@ -39,9 +38,11 @@ def login_page():
     prevent_initial_call=True
 )
 def login(n_clicks, username, password):
-    if n_clicks > 0 and username != '' and password != '':
+    print("Login clicked : ", ctx.triggered_id, "with", n_clicks, "clicks.")
+    if ctx.triggered_id == "login-button" and n_clicks > 0 and username != '' and password != '':
         print("Attempting login...")
         if check_credentials(username, password):
+            print("Credentials valid : Authenticated")
             return {'authenticated': True, 'user': username}
-        else:
-            return no_update
+    
+    return no_update
