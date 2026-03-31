@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>266</x>
+      <y>196</y>
+      <w>238</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>PlayerNation
+--
+name : string
+regions : List[Region]
+policies : Policies
+budget : Budget
+international_relations : InternationalRelations
+procurement_objectives : Objectives
+--
+get_rival_nations() -&gt; List[Nation]
+generate_performance_review() -&gt; string
+get_national_income()
+get_national_expenses()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>392</y>
+      <w>189</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>Region
+--
+name : string
+population : int
+purchasing_power : float
+education_level : float
+indurstries : List[Industry]
+--
+get_gdp() -&gt; float
+get_num_employed() -&gt; float
+get_num_unemployed() -&gt; float
+generate_births() -&gt; int
+generate_deaths() -&gt; int
+get_industrialisation() -&gt; float
+timestep_region()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>623</y>
+      <w>182</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Industry
+--
+name : IndustryName
+num_jobs : int
+num_employees : int
+experience : float
+average_salary : int
+financial_reserves : float
+--
+manage_hiring() -&gt; float
+update_experience() -&gt; float</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>329</y>
+      <w>42</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..n</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>301</x>
+      <y>546</y>
+      <w>42</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..n</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>49</x>
+      <y>623</y>
+      <w>119</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>IndustryName
+--
+SUBSISTENCE
+AGRICULTURE
+INDUSTRIAL_FOOD
+RAW_RESOURCES
+MINING
+METALURGY
+MANUFACTURING
+MACHINERY
+ELECTRONICS
+SEMICONDUCTORS
+EXPLOSIVES
+ARMAMENTS
+PHARMACEUTICALS
+LUXURIES</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>161</x>
+      <y>644</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>196</y>
+      <w>196</w>
+      <h>336</h>
+    </coordinates>
+    <panel_attributes>Policies
+--
+# interior
+tax_rate : dict
+# army
+conscription : bool
+conscript_women : bool
+conscript_requirement : float
+# employement
+
+# environment
+
+# justice
+martial_law : bool
+
+# economy
+
+# energy
+
+# tourism
+
+# trade
+
+# agriculture
+
+# education
+
+# foreign_relations
+
+# culture
+
+# health
+
+# research
+
+# transport
+
+# cities</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>189</x>
+      <y>231</y>
+      <w>91</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>567</x>
+      <y>308</y>
+      <w>147</w>
+      <h>217</h>
+    </coordinates>
+    <panel_attributes>Budget
+--
+military_budget : float
+social_budget : float
+education_budget : float
+--
+get_national_budget()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>567</x>
+      <y>196</y>
+      <w>133</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>InternationalRelations
+--
+relations : List[Relation]
+--
+get_trade_revenues()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>497</x>
+      <y>224</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>497</x>
+      <y>315</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>189</y>
+      <w>203</w>
+      <h>217</h>
+    </coordinates>
+    <panel_attributes>Relation
+--
+nation : AINation
+relation_quality : float
+ideology_similarity : float
+is_trading_with_us : bool
+is_trading_with_them : bool
+incoming_trade_value : float
+outgoing_trade_value : float
+our_tariff : float
+their_tarriff : float
+accessible_industries : List[Industry]
+--
+apply_embargo()
+apply_sanctions()
+update_relations()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>217</y>
+      <w>91</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+0..n</panel_attributes>
+    <additional_attributes>110.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>322</x>
+      <y>14</y>
+      <w>182</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>/Nation/
+--
+--
+get_gdp_nominal() -&gt; float
+get_gdp_ppp() -&gt; float
+get_population() -&gt; int
+timestep_nation()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>392</x>
+      <y>98</y>
+      <w>21</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>651</x>
+      <y>14</y>
+      <w>238</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>AINation
+--
+name : string
+government_type : GovernmentType
+ai_personality : AIPersonality
+gdp_nominal : float
+purchasing_power : float
+development
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>497</x>
+      <y>49</y>
+      <w>168</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>826</x>
+      <y>126</y>
+      <w>28</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>455</x>
+      <y>574</y>
+      <w>189</w>
+      <h>217</h>
+    </coordinates>
+    <panel_attributes>Objectives
+--
+capabilities : List[Capability]
+--
+update_objectives()
+get_performance()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>476</x>
+      <y>329</y>
+      <w>28</w>
+      <h>259</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;350.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
