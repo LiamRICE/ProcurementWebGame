@@ -28,11 +28,21 @@ class IndustryType(Enum):
     SHIPS = 5
     AIRCRAFT = 6
     SEMICONDUCTORS = 7
+    CONSTRUCTION = 8
     # Military Manufacturing
-    MILITARY_GOODS = 8
-    AMMUNITION = 9
+    MILITARY_GOODS = 9
+    AMMUNITION = 10
     # Services
-    SERVICES = 10
+    SERVICES = 11
+
+
+class Good:
+    def __init__(self, name:IndustryType, base_price:float):
+        self.name = name
+        self.price = base_price
+        self.demand = 0
+        self.quantity = 0
+        self.production = 0
 
 
 class Population:
@@ -41,6 +51,15 @@ class Population:
         self.number = number
         self.employed = 0
         self.education_level = education_level
+        self.required_goods = [
+            (IndustryType.AGRICULTURE, 1),
+            (IndustryType.CONSTRUCTION, 0.05),
+        ]
+        self.optional_goods = [
+            (IndustryType.CONSUMER_GOODS, 0.5),
+            (IndustryType.VEHICLES, 0.1),
+            (IndustryType.SERVICES, 0.5)
+        ]
     
     def kill(self, amount:int, industries:list):
         self.number = max(0, self.number - amount)
@@ -64,19 +83,21 @@ class Population:
                 next_level.number += to_promote
 
 
-class Good:
-    def __init__(self, name:IndustryType, base_price:float):
-        self.name = name
-        self.price = base_price
-        self.demand = 0
-        self.quantity = 0
-        self.production = 0
-
-
 class Market:
 
     def __init__(self, goods:list[Good]):
         self.market = goods
+    
+    def update_demand(self, population:list[Population], industries:list[Industry]):
+        for good in self.market:
+            good.demand = 0
+            for pop in population:
+                for required_good, quantity in pop.required_goods:
+                    if required_good == good.name:
+                        good.demand += pop.number * quantity
+                for optional_good, quantity in pop.optional_goods:
+                    if optional_good == good.name:
+                        good.demand += pop.number * quantity
     
 
 
@@ -265,7 +286,7 @@ class Nation:
                 num_deaths = pop.number * death_rate
                 total_deaths += num_deaths
                 pop.kill(num_deaths, self.industries)
-                
+    
     def __str__(self):
         return f"Nation: {self.name}\nPopulation: {self.get_total_population()}\nUnemployment Rate: {self.get_unemployment_rate()*100:.2f}%\nIndustries:\n" + "\n".join([f"  {ind.name} (Jobs: {ind.num_jobs}, Employed: {ind.total_hired}, Productivity: {ind.calculate_productivity():.2f})" for ind in self.industries])
 
