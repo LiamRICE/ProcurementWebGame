@@ -9,10 +9,10 @@ population_needs = [
 
 
 class PopulationType(Enum):
-    UNEDUCATED = 0
-    EDUCATED = 1
-    HIGHLY_EDUCATED = 2
-    EXPERT = 3
+    UNEDUCATED = 1
+    EDUCATED = 2
+    HIGHLY_EDUCATED = 3
+    EXPERT = 4
 
 
 class Job(Enum):

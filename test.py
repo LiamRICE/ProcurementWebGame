@@ -1,43 +1,86 @@
-from src.objects import *
+# from src.objects import *
+from src.objects_2 import *
 
 
 if __name__ == "__main__":
 
-    # Define some goods
-    food = Good("Food", 100, 10)
-    consumer_goods = Good("Consumer Goods", 50, 20)
+    # Populations
+    pop0 = Population(200, EducationLevel.CHILD)
+    pop1 = Population(800, EducationLevel.UNEDUCATED)
+    pop2 = Population(500, EducationLevel.EDUCATED)
+    pop3 = Population(200, EducationLevel.HIGHLY_EDUCATED)
 
-    # Define market
-    market = Market(market=[food, consumer_goods])
+    # Industries
+    industry1 = Industry(
+        "Agriculture",
+        IndustryType.AGRICULTURE,
+        base_productivity=25,
+        technology_level=1,
+        avg_salary=150,
+        num_jobs=1000,
+        required_education=EducationLevel.UNEDUCATED,
+        average_production_value=6.0,
+        input_goods=[]
+    )
+    industry2 = Industry(
+        "Manufacturing",
+        IndustryType.CONSUMER_GOODS,
+        base_productivity=10,
+        technology_level=1,
+        avg_salary=200,
+        num_jobs=500,
+        required_education=EducationLevel.UNEDUCATED,
+        average_production_value=30.0,
+        input_goods=[
+            {"One": {
+                "quantity": 1,
+                "cost": 12.0
+            }}
+        ]
+    )
+    industry3 = Industry(
+        "Vehicles",
+        IndustryType.VEHICLES,
+        base_productivity=0.2,
+        technology_level=1,
+        avg_salary=300,
+        num_jobs=200,
+        required_education=EducationLevel.EDUCATED,
+        average_production_value=2000.0,
+        input_goods=[
+            {"One": {
+                "quantity": 1,
+                "cost": 250.0
+            }},
+            {"Two": {
+                "quantity": 0.2,
+                "cost": 800.0
+            }}
+        ]
+    )
 
-    # Define population
-    population_farmer = Population(population=1000, pop_type=PopulationType.UNEDUCATED, job=Job.FARMER, wealth=10000)
-    population_worker = Population(population=500, pop_type=PopulationType.EDUCATED, job=Job.WORKER, wealth=5000)
-    people = People(name="People of Country", populations=[population_farmer, population_worker])
+    # Market
+    good1 = Good(IndustryType.AGRICULTURE, base_price=6.0)
+    good2 = Good(IndustryType.CONSUMER_GOODS, base_price=30.0)
+    good3 = Good(IndustryType.VEHICLES, base_price=2000.0)
+    market = Market([good1, good2, good3])
 
-    # Define industries
-    agriculture = Industry(name="Agriculture", produced_good=food, required_goods=[], workforce=population_farmer)
-    manufacturing = Industry(name="Manufacturing", produced_good=consumer_goods, required_goods=[], workforce=population_worker)
-
-    # Define company
-    company = Company(name="AgriCorp", industries=[agriculture, manufacturing], capital=100000)
+    # Nation
+    nation = Nation("Testland", [pop0, pop1, pop2, pop3], [industry1, industry2, industry3], market)
 
 
+    #=== TEST ===#
+    print("===== INITIAL STATE =====")
+    print(nation)
 
-    # Print initial state
-    for good in market.market:
-        print(str(good))
-    
-    people.update_demand(market)
+    print("\n===== AFTER UPDATING EMPLOYMENT =====")
+    nation.update_employement()
+    print(nation)
 
-    company.update()
+    print("\n===== AFTER UPDATING INDUSTRIES =====")
+    for ind in nation.industries:
+        print("\n"+str(ind))
 
-    people.make_purchase_orders(market)
-
-    market.update()
-
-    people.complete_purchase_orders(market)
-
-    for good in market.market:
-        print(str(good))
-    
+    print("\n===== AFTER UPDATING POPULATION =====")
+    nation.update_population()
+    print(nation)
